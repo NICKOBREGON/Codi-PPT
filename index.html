@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Trauma Team Board</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0f14">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  :root{
+    --bg:#e9eef2;
+    --panel:#ffffff;
+    --panel-2:#f2f5f8;
+    --border:#c9d4dc;
+    --text:#152230;
+    --muted:#5b6b78;
+    --teal:#0d8f6c;
+    --teal-dim:#dbf5ec;
+    --amber:#b06a05;
+    --amber-dim:#fdecd0;
+    --slate:#e4e9ed;
+    --slate-text:#5b6b78;
+    --danger:#c0392b;
+    --danger-dim:#fbe1de;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono", monospace;
+    --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; height:100%; background:var(--bg); color:var(--text);
+    font-family:var(--sans); overflow:hidden;
+  }
+  #app{
+    height:100vh; display:flex; flex-direction:column; padding:14px 20px 10px;
+    gap:10px;
+  }
+  .content-row{
+    flex:1; display:flex; gap:14px; min-height:0;
+  }
+
+  /* HEADER */
+  header{
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    padding:10px 22px;
+  }
+  .clock{
+    font-family:var(--mono); font-size:clamp(22px,2.6vw,40px); font-weight:600;
+    letter-spacing:1px; justify-self:start;
+  }
+  .clock .date{
+    display:block; font-family:var(--sans); font-size:12px; color:var(--muted);
+    font-weight:400; letter-spacing:.5px; margin-top:2px;
+  }
+  h1{
+    margin:0; font-size:clamp(18px,2vw,28px); letter-spacing:3px; font-weight:800;
+    text-align:center; color:var(--text);
+  }
+  .timer-block{ justify-self:end; display:flex; align-items:center; gap:14px; }
+  .timer-readout{
+    font-family:var(--mono); font-size:clamp(22px,2.6vw,40px); font-weight:700;
+    color:var(--teal); min-width:5.2ch; text-align:right;
+  }
+  .timer-readout.running{ animation: soft-glow 2s ease-in-out infinite; }
+  @keyframes soft-glow{
+    0%,100%{ text-shadow:0 0 0px rgba(51,201,160,0); }
+    50%{ text-shadow:0 0 14px rgba(51,201,160,.55); }
+  }
+  .btn{
+    font-family:var(--sans); font-size:13px; font-weight:600; letter-spacing:.3px;
+    border-radius:9px; border:1px solid var(--border); background:var(--panel-2);
+    color:var(--text); padding:9px 14px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{ background:#e2e8ec; }
+  .btn.primary{ background:var(--teal-dim); border-color:var(--teal); color:#065a41; }
+  .btn.primary:hover{ background:#c8eee0; }
+  .btn.warn{ background:var(--amber-dim); border-color:var(--amber); color:#7a4600; }
+  .btn.warn:hover{ background:#fbe0b0; }
+  .btn.danger{ background:var(--danger-dim); border-color:var(--danger); color:#8a271b; }
+  .btn.danger:hover{ background:#f7cdc8; }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .icon-btn{
+    border:1px solid var(--border); background:var(--panel-2); color:var(--muted);
+    border-radius:9px; padding:8px 10px; cursor:pointer; font-size:14px;
+  }
+
+  /* ABCDE BAR */
+  .abcde{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:10px;
+  }
+  .letter-tile{
+    background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:10px 6px; cursor:pointer; user-select:none; transition:.15s;
+    min-height:88px;
+  }
+  .letter-tile .letter{
+    font-size:clamp(26px,3vw,40px); font-weight:800; line-height:1;
+  }
+  .letter-tile .status{
+    font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-top:4px;
+    color:var(--muted); font-weight:600;
+  }
+  .letter-tile .subtimer{
+    font-family:var(--mono); font-size:15px; margin-top:5px; color:var(--muted);
+  }
+  .letter-tile.pending{ background:var(--panel); }
+  .letter-tile.pending .letter{ color:var(--slate-text); }
+  .letter-tile.inprogress{
+    background:linear-gradient(180deg, var(--amber-dim), var(--panel));
+    border-color:var(--amber); animation:pulse-amber 1.8s ease-in-out infinite;
+  }
+  .letter-tile.inprogress .letter, .letter-tile.inprogress .subtimer{ color:var(--amber); }
+  .letter-tile.inprogress .status{ color:var(--amber); }
+  .letter-tile.resolved{
+    background:linear-gradient(180deg, var(--teal-dim), var(--panel)); border-color:var(--teal);
+  }
+  .letter-tile.resolved .letter, .letter-tile.resolved .subtimer{ color:var(--teal); }
+  .letter-tile.resolved .status{ color:var(--teal); }
+  @keyframes pulse-amber{
+    0%,100%{ box-shadow:0 0 0 0 rgba(232,163,61,0); }
+    50%{ box-shadow:0 0 0 6px rgba(232,163,61,.12); }
+  }
+
+  /* MAIN BOARD */
+  main{
+    flex:1; background:var(--panel); border:1px solid var(--border); border-radius:14px;
+    position:relative; padding:18px 30px 22px; display:grid;
+    grid-template-columns:1fr auto 1fr;
+    grid-template-rows:auto 1fr auto;
+    grid-template-areas:
+      "head head head"
+      "left center right"
+      "blcorner bottom brcorner";
+    gap:14px 22px;
+    min-height:0;
+  }
+
+  .role-unit{ display:flex; align-items:center; gap:12px; }
+  .role-unit input{
+    background:var(--panel-2); border:1px solid var(--border); color:var(--text);
+    border-radius:9px; padding:10px 12px; font-family:var(--sans);
+    font-size:clamp(14px,1.25vw,19px); width:clamp(120px,13vw,200px); min-width:0;
+  }
+  .role-unit input:focus{ outline:2px solid var(--teal); outline-offset:1px; }
+
+  .badge{
+    width:46px; height:46px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:16px; color:#fff; letter-spacing:.2px;
+  }
+  .badge.blue{ background:#2f6fb0; }
+  .badge.amber{ background:#c98a12; }
+  .badge.black{ background:#1c2530; border-radius:9px; }
+  .badge.red{ background:var(--danger); width:64px; height:64px; font-size:20px; }
+
+  .group-card{
+    display:flex; flex-direction:column; gap:10px;
+    background:var(--panel-2); border:1px solid var(--border); border-radius:14px;
+    padding:12px 16px;
+  }
+  .group-card .role-unit input{ background:var(--panel); }
+  .area-head .group-card{ flex-direction:row; align-items:center; gap:26px; }
+
+  .area-head{
+    grid-area:head; display:flex; justify-content:center; align-items:flex-start;
+    gap:34px; padding-bottom:2px; border-bottom:1px dashed var(--border);
+  }
+  .area-left{
+    grid-area:left; display:flex; flex-direction:column; justify-content:center; gap:14px;
+  }
+  .area-left .role-unit.support{ opacity:.85; margin-top:6px; }
+  .area-right{
+    grid-area:right; display:flex; flex-direction:column; justify-content:center; align-items:flex-end;
+  }
+  .area-bl{ grid-area:blcorner; align-self:end; }
+  .area-br{
+    grid-area:brcorner; align-self:end; display:flex; flex-direction:column; gap:10px; align-items:flex-end;
+  }
+  .area-bottom{ grid-area:bottom; display:flex; justify-content:center; }
+  .role-unit.leader{ gap:16px; }
+  .role-unit.leader .badge{ }
+  .role-unit.leader input{
+    width:clamp(160px,16vw,240px); font-size:clamp(16px,1.6vw,22px); font-weight:700;
+    padding:12px 16px;
+  }
+
+  .center-visual{
+    grid-area:center; align-self:center; justify-self:center;
+    width:min(150px,11vw); display:flex; align-items:center; justify-content:center;
+  }
+  .center-visual svg{ width:100%; height:auto; }
+
+  /* LEYENDA */
+  .legend-wrap{ position:relative; }
+  .legend-popover{
+    position:absolute; top:calc(100% + 8px); right:0; z-index:60;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    padding:14px 18px; box-shadow:0 12px 30px rgba(21,34,48,.16);
+    font-size:13px; line-height:1.65; min-width:230px; display:none;
+  }
+  .legend-popover.show{ display:block; }
+  .legend-popover div{ white-space:nowrap; }
+  .legend-popover strong{ color:var(--teal); margin-right:4px; }
+
+  footer{ display:flex; justify-content:center; }
+
+  /* PANEL LATERAL DE PREBRIEFING */
+  .sidebar{
+    width:min(340px,26vw); flex-shrink:0; background:var(--panel);
+    border:1px solid var(--border); border-radius:14px;
+    overflow-y:auto;
+    /*display:flex; flex-direction:column; overflow:hidden*/;
+  }
+  .tabs{ display:flex; border-bottom:1px solid var(--border); flex-shrink:0; }
+  .tab{
+    flex:1; background:var(--panel-2); border:none; border-right:1px solid var(--border);
+    color:var(--muted); font-family:var(--sans); font-weight:700; font-size:14px;
+    padding:12px 8px; cursor:pointer;
+  }
+  .tab:last-child{ border-right:none; }
+  .tab.active{ background:var(--panel); color:var(--teal); box-shadow:inset 0 -3px 0 var(--teal); }
+  .tab-content{ flex:1; overflow:hidden; padding:14px 18px 16px; display:flex; flex-direction:column; gap:8px; min-height:0; }
+  .amist-field{ flex:1; display:flex; flex-direction:column; gap:5px; min-height:0; }
+  .amist-field label{
+    font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; color:var(--text); flex-shrink:0;
+  }
+  .amist-letter{
+    display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px;
+    border-radius:50%; background:var(--teal-dim); color:var(--teal); font-weight:800; font-size:13px;
+    flex-shrink:0;
+  }
+  .amist-field textarea{
+    flex:1; resize:none; min-height:0; font-size:15px; font-family:var(--sans);
+    padding:15px 11px; border:1px solid var(--border); border-radius:9px;
+    background:var(--panel-2); color:var(--text); line-height:1.4;
+  }
+  .amist-field textarea:focus{ outline:2px solid var(--teal); outline-offset:1px; }
+  .events-placeholder{
+    color:var(--muted); font-size:14px; text-align:center; margin-top:30px; line-height:1.5;
+  }
+
+  #toast{
+    position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
+    background:var(--panel-2); border:1px solid var(--border); padding:8px 16px;
+    border-radius:20px; font-size:13px; color:var(--muted); opacity:0; pointer-events:none;
+    transition:opacity .3s;
+  }
+  #toast.show{ opacity:1; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <div class="clock" id="clock">--:--:--<span class="date" id="dateStr"></span></div>
+    <h1>TRAUMA TEAM</h1>
+    <div class="timer-block">
+      <div>
+        <div class="timer-readout" id="genTimer">00:00</div>
+      </div>
+      <button class="btn primary" id="genStart">Iniciar</button>
+      <button class="btn warn" id="genPause" disabled>Pausar</button>
+      <button class="icon-btn" id="genReset" title="Reiniciar cronómetro">⟲</button>
+      <div class="legend-wrap">
+        <button class="icon-btn" id="legendBtn" title="Leyenda de roles">ℹ</button>
+        <div class="legend-popover" id="legendPopover">
+          <div><strong>TL</strong>trauma líder</div>
+          <div><strong>IA</strong>infermera via aèria</div>
+          <div><strong>IC</strong>infermera circulació</div>
+          <div><strong>A</strong>metge via aèria</div>
+          <div><strong>B</strong>metge ventilació</div>
+          <div><strong>C</strong>metge circulació</div>
+          <div><strong>E</strong>metge de suport</div>
+          <div><strong>TR</strong>metge traumatòleg</div>
+          <div><strong>R</strong>metge radiòleg</div>
+          <div><strong>T</strong>TCAI</div>
+        </div>
+      </div>
+      <button class="icon-btn" id="fsBtn" title="Pantalla completa">⛶</button>
+    </div>
+  </header>
+
+  <div class="abcde" id="abcde"></div>
+
+  <div class="content-row">
+  <main>
+    <!-- Vía aèria, junto a la cabeza -->
+    <div class="area-head">
+      <div class="group-card">
+        <div class="role-unit">
+          <div class="badge amber">IA</div>
+          <input data-key="IA" placeholder="Infermera via aèria">
+        </div>
+        <div class="role-unit">
+          <div class="badge blue">A</div>
+          <input data-key="A" placeholder="Metge via aèria">
+        </div>
+      </div>
+    </div>
+
+    <!-- Circulació, a la izquierda -->
+    <div class="area-left">
+      <div class="group-card">
+        <div class="role-unit">
+          <div class="badge blue">C</div>
+          <input data-key="C" placeholder="Metge circulació">
+        </div>
+        <div class="role-unit">
+          <div class="badge amber">IC</div>
+          <input data-key="IC" placeholder="Infermera circulació">
+        </div>
+      </div>
+      <div class="role-unit support">
+        <div class="badge blue">E</div>
+        <input data-key="E" placeholder="Metge de suport">
+      </div>
+    </div>
+
+    <div class="center-visual">
+      <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fondo azul (la "tarjeta" detrás de la figura) -->
+        <rect x="14" y="6" width="72" height="190" rx="18" fill="#4d84b3"/>
+        <!-- Cabeza (óvalo color piel) -->
+        <ellipse cx="50" cy="33" rx="16" ry="17" fill="#f0c29b"/>
+        <!-- Pelo (forma sobre la cabeza) -->
+        <path d="M33,28 Q33,12 50,12 Q67,12 67,28 Q60,20 50,20 Q40,20 33,28 Z" fill="#3b2a20"/>
+        <!-- Ojo izquierdo / derecho -->
+        <circle cx="44" cy="33" r="1.8" fill="#2b2b2b"/>
+        <circle cx="56" cy="33" r="1.8" fill="#2b2b2b"/>
+        <!-- Sonrisa -->
+        <path d="M44,40 Q50,44 56,40" stroke="#8a5a3c" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <!-- Cuello -->
+        <rect x="45" y="48" width="10" height="8" fill="#f0c29b"/>
+        <!-- Torso -->
+        <rect x="31" y="56" width="38" height="48" rx="14" fill="#f0c29b"/>
+        <!-- Brazo izquierdo / derecho -->
+        <rect x="18" y="60" width="12" height="60" rx="6" fill="#f0c29b"/>
+        <rect x="70" y="60" width="12" height="60" rx="6" fill="#f0c29b"/>
+        <!-- Pantalón corto / ropa interior -->
+        <rect x="33" y="98" width="34" height="24" rx="9" fill="#33414d"/>
+        <!-- Pierna izquierda / derecha -->
+        <rect x="35" y="118" width="13" height="70" rx="6" fill="#f0c29b"/>
+        <rect x="52" y="118" width="13" height="70" rx="6" fill="#f0c29b"/>
+      </svg>
+    </div>
+
+
+    <!-- Ventilació, a la derecha -->
+    <div class="area-right">
+      <div class="role-unit">
+        <div class="badge blue">B</div>
+        <input data-key="B" placeholder="Metge ventilació">
+      </div>
+    </div>
+
+    <!-- Esquina inferior izquierda -->
+    <div class="area-bl">
+      <div class="role-unit">
+        <div class="badge black">R</div>
+        <input data-key="R" placeholder="Metge radiòleg">
+      </div>
+    </div>
+
+    <!-- A los pies: líder, más visible -->
+    <div class="area-bottom">
+      <div class="role-unit leader">
+        <div class="badge red">TL</div>
+        <input data-key="TL" placeholder="Trauma líder">
+      </div>
+    </div>
+
+    <!-- Esquina inferior derecha -->
+    <div class="area-br">
+      <div class="group-card">
+        <div class="role-unit">
+          <div class="badge black">TR</div>
+          <input data-key="TR" placeholder="Metge traumatòleg">
+        </div>
+        <div class="role-unit">
+          <div class="badge black">T</div>
+          <input data-key="T" placeholder="TCAI">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="tabs">
+      <button class="tab active" data-tab="prebriefing">Prebriefing</button>
+      <button class="tab" data-tab="events">Eventos</button>
+    </div>
+    <div class="tab-content" id="tab-prebriefing">
+      <div class="amist-field">
+        <label><span class="amist-letter">A</span>Edat / dades bàsiques</label>
+        <textarea data-amist="A" placeholder="Edat, sexe, antecedents rellevants…"></textarea>
+      </div>
+      <div class="amist-field">
+        <label><span class="amist-letter">M</span>Mecanisme lesional</label>
+        <textarea data-amist="M" placeholder="Mecanisme de la lesió o motiu de consulta…"></textarea>
+      </div>
+      <div class="amist-field">
+        <label><span class="amist-letter">I</span>Lesions sospitades</label>
+        <textarea data-amist="I" placeholder="Lesions sospitades segons mecanisme/exploració…"></textarea>
+      </div>
+      <div class="amist-field">
+        <label><span class="amist-letter">S</span>Signes vitals</label>
+        <textarea data-amist="S" placeholder="TA, FC, FR, SatO2, Glasgow, temperatura…"></textarea>
+      </div>
+      <div class="amist-field">
+        <label><span class="amist-letter">T</span>Tractament realitzat</label>
+        <textarea data-amist="T" placeholder="Tractament administrat fins al moment…"></textarea>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-events" hidden></div>
+  </aside>
+  </div>
+
+  <footer>
+    <button class="btn danger" id="newCase">Nuevo caso (reset completo)</button>
+  </footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const STORAGE_KEY = "trauma-team-state-v1";
+const LETTERS = ["A","B","C","D","E"];
+const STATE_CYCLE = ["pending","inprogress","resolved"];
+
+const AMIST = ["A","M","I","S","T"];
+
+function defaultState(){
+  return {
+    roles: {},
+    general: { running:false, startedAt:null, accumulated:0 },
+    abcde: Object.fromEntries(LETTERS.map(l => [l, { state:"pending", startedAt:null, accumulated:0 }])),
+    prebriefing: Object.fromEntries(AMIST.map(l => [l, ""]))
+  };
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return {
+      ...defaultState(), ...parsed,
+      general:{...defaultState().general, ...parsed.general},
+      abcde:{...defaultState().abcde, ...parsed.abcde},
+      prebriefing:{...defaultState().prebriefing, ...parsed.prebriefing}
+    };
+  }catch(e){ return defaultState(); }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+/* ---------- Reloj ---------- */
+function tickClock(){
+  const now = new Date();
+  document.getElementById("clock").firstChild.textContent =
+    now.toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById("dateStr").textContent =
+    now.toLocaleDateString('es-ES', {weekday:'long', day:'2-digit', month:'long'});
+}
+
+/* ---------- Formato tiempo ---------- */
+function fmt(ms){
+  const totalSec = Math.floor(ms/1000);
+  const h = Math.floor(totalSec/3600);
+  const m = Math.floor((totalSec%3600)/60);
+  const s = totalSec%60;
+  const pad = n => String(n).padStart(2,'0');
+  return h>0 ? `${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+function elapsedOf(t){
+  return t.accumulated + (t.running ? (Date.now() - t.startedAt) : 0);
+}
+
+/* ---------- Cronómetro general ---------- */
+const genTimerEl = document.getElementById("genTimer");
+const genStartBtn = document.getElementById("genStart");
+const genPauseBtn = document.getElementById("genPause");
+const genResetBtn = document.getElementById("genReset");
+
+function renderGeneral(){
+  genTimerEl.textContent = fmt(elapsedOf(state.general));
+  genTimerEl.classList.toggle("running", state.general.running);
+  genStartBtn.disabled = state.general.running;
+  genPauseBtn.disabled = !state.general.running;
+}
+genStartBtn.onclick = () => {
+  if(state.general.running) return;
+  state.general.running = true;
+  state.general.startedAt = Date.now();
+  saveState(); renderGeneral();
+};
+genPauseBtn.onclick = () => {
+  if(!state.general.running) return;
+  state.general.accumulated += Date.now() - state.general.startedAt;
+  state.general.running = false;
+  state.general.startedAt = null;
+  saveState(); renderGeneral();
+};
+genResetBtn.onclick = () => {
+  if(!confirm("¿Reiniciar el cronómetro general?")) return;
+  state.general = defaultState().general;
+  saveState(); renderGeneral();
+};
+
+/* ---------- ABCDE ---------- */
+const abcdeEl = document.getElementById("abcde");
+const STATUS_LABEL = { pending:"Pendiente", inprogress:"En curso", resolved:"Resuelto" };
+
+function buildAbcde(){
+  abcdeEl.innerHTML = "";
+  LETTERS.forEach(letter => {
+    const tile = document.createElement("div");
+    tile.className = "letter-tile";
+    tile.dataset.letter = letter;
+    tile.innerHTML = `
+      <div class="letter">${letter}</div>
+      <div class="status"></div>
+      <div class="subtimer"></div>
+    `;
+    tile.onclick = () => cycleLetter(letter);
+    abcdeEl.appendChild(tile);
+  });
+}
+
+function cycleLetter(letter){
+  const t = state.abcde[letter];
+  const idx = STATE_CYCLE.indexOf(t.state);
+  const next = STATE_CYCLE[(idx+1) % STATE_CYCLE.length];
+
+  if(next === "inprogress"){
+    t.startedAt = Date.now();
+  } else if(next === "resolved"){
+    if(t.startedAt){ t.accumulated += Date.now() - t.startedAt; }
+    t.startedAt = null;
+  } else if(next === "pending"){
+    t.accumulated = 0; t.startedAt = null;
+  }
+  t.state = next;
+  saveState();
+  renderAbcde();
+}
+
+function renderAbcde(){
+  LETTERS.forEach(letter => {
+    const t = state.abcde[letter];
+    const tile = abcdeEl.querySelector(`[data-letter="${letter}"]`);
+    if(!tile) return;
+    tile.className = `letter-tile ${t.state}`;
+    tile.querySelector(".status").textContent = STATUS_LABEL[t.state];
+    const running = t.state === "inprogress";
+    const elapsed = t.accumulated + (running ? Date.now() - t.startedAt : 0);
+    tile.querySelector(".subtimer").textContent = t.state === "pending" ? "--:--" : fmt(elapsed);
+  });
+}
+
+/* ---------- Roles (inputs) ---------- */
+document.querySelectorAll(".role-unit input").forEach(input => {
+  const key = input.dataset.key;
+  input.value = state.roles[key] || "";
+  input.addEventListener("input", () => {
+    state.roles[key] = input.value;
+    saveState();
+  });
+});
+
+/* ---------- Leyenda ---------- */
+const legendBtn = document.getElementById("legendBtn");
+const legendPopover = document.getElementById("legendPopover");
+legendBtn.onclick = (e) => {
+  e.stopPropagation();
+  legendPopover.classList.toggle("show");
+};
+document.addEventListener("click", (e) => {
+  if(!legendPopover.contains(e.target) && e.target !== legendBtn){
+    legendPopover.classList.remove("show");
+  }
+});
+
+/* ---------- Prebriefing (AMIST) ---------- */
+document.querySelectorAll("[data-amist]").forEach(ta => {
+  const key = ta.dataset.amist;
+  ta.value = state.prebriefing[key] || "";
+  ta.addEventListener("input", () => {
+    state.prebriefing[key] = ta.value;
+    saveState();
+  });
+});
+
+/* ---------- Pestañas del panel lateral ---------- */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.hidden = true);
+    tab.classList.add("active");
+    document.getElementById(`tab-${tab.dataset.tab}`).hidden = false;
+  };
+});
+
+/* ---------- Nuevo caso ---------- */
+document.getElementById("newCase").onclick = () => {
+  if(!confirm("Esto borrará nombres, cronómetro, estado ABCDE y prebriefing para empezar un caso nuevo. ¿Continuar?")) return;
+  state = defaultState();
+  saveState();
+  document.querySelectorAll(".role-unit input").forEach(input => input.value = "");
+  document.querySelectorAll("[data-amist]").forEach(ta => ta.value = "");
+  renderGeneral();
+  renderAbcde();
+  showToast("Pizarra reiniciada para nuevo caso");
+};
+
+/* ---------- Pantalla completa ---------- */
+document.getElementById("fsBtn").onclick = () => {
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
+  else{ document.exitFullscreen(); }
+};
+
+/* ---------- Toast ---------- */
+let toastTimeout;
+function showToast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(()=> el.classList.remove("show"), 2200);
+}
+
+/* ---------- Init ---------- */
+buildAbcde();
+renderAbcde();
+renderGeneral();
+tickClock();
+setInterval(() => { tickClock(); renderGeneral(); renderAbcde(); }, 1000);
+
+/* ---------- Service worker (PWA) ---------- */
+if("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
