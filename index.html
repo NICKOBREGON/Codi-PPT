@@ -41,7 +41,7 @@
   .content-row{
     flex:1; display:flex; gap:14px; min-height:0;
   }
-
+ 
   /* HEADER */
   header{
     display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
@@ -87,7 +87,7 @@
     border:1px solid var(--border); background:var(--panel-2); color:var(--muted);
     border-radius:9px; padding:8px 10px; cursor:pointer; font-size:14px;
   }
-
+ 
   /* ABCDE BAR */
   .abcde-row{ display:flex; gap:10px; }
   .abcde{
@@ -127,7 +127,7 @@
     0%,100%{ box-shadow:0 0 0 0 rgba(232,163,61,0); }
     50%{ box-shadow:0 0 0 6px rgba(232,163,61,.12); }
   }
-
+ 
   /* Botón que abre el checklist clínico de cada letra (independiente del semáforo) */
   .tile-expand{
     position:absolute; top:6px; right:8px; border:none; background:none; cursor:pointer;
@@ -162,7 +162,7 @@
     width:70px; padding:5px 7px; border:1px solid var(--border); border-radius:7px;
     background:var(--panel-2); color:var(--text); font-family:var(--sans); font-size:13px;
   }
-
+ 
   /* Tile de Transfer, a la izquierda de la fila ABCDE */
   .transfer-tile{
     flex:0 0 128px; background:var(--panel); border:1px solid var(--border); border-radius:14px;
@@ -176,23 +176,23 @@
   .transfer-tile .t-status{ font-size:11px; font-weight:700; margin-top:4px; color:var(--slate-text); }
   .transfer-tile.done{ background:linear-gradient(180deg, var(--teal-dim), var(--panel)); border-color:var(--teal); }
   .transfer-tile.done .t-status{ color:var(--teal); }
-
+ 
   /* ---------- VISTA MÓVIL ---------- */
   #mobileToggleBtn{ display:none; }
   #mobileView{ display:none; }
-
+ 
   @media (max-width: 820px){
     html, body{ overflow-y:auto; overflow-x:hidden; }
     #app.desktop-mode{ display:none; }
     #mobileToggleBtn{ display:inline-flex; }
   }
-
+ 
   body.force-mobile #app{ display:none; }
   body.force-mobile #mobileView{ display:block; }
   body.force-desktop #app{ display:flex !important; }
   body.force-desktop #mobileView{ display:none !important; }
   body:not(.force-mobile):not(.force-desktop) #mobileView{ display:none; }
-
+ 
   #mobileView{
     min-height:100vh; background:var(--bg); font-family:var(--sans); color:var(--text);
     padding:14px 14px 40px;
@@ -265,13 +265,13 @@
   .mv-transfer-btn.done{ background:var(--teal-dim); border-color:var(--teal); color:var(--teal); }
   .mv-sync-actions{ display:flex; gap:8px; }
   .mv-sync-actions .btn{ flex:1; }
-
+ 
   @media (min-width: 821px){
     #mobileView{ display:none; }
     body.force-mobile #mobileView{ display:block; }
     body.force-mobile #app{ display:none; }
   }
-
+ 
   main{
     flex:1; background:var(--panel); border:1px solid var(--border); border-radius:14px;
     position:relative; padding:18px 30px 22px; display:grid;
@@ -284,7 +284,7 @@
     gap:14px 22px;
     min-height:0;
   }
-
+ 
   .role-unit{ display:flex; align-items:center; gap:12px; }
   .role-unit input{
     background:var(--panel-2); border:1px solid var(--border); color:var(--text);
@@ -292,7 +292,7 @@
     font-size:clamp(14px,1.25vw,19px); width:clamp(120px,13vw,200px); min-width:0;
   }
   .role-unit input:focus{ outline:2px solid var(--teal); outline-offset:1px; }
-
+ 
   .badge{
     width:46px; height:46px; border-radius:50%; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
@@ -302,7 +302,7 @@
   .badge.amber{ background:#c98a12; }
   .badge.black{ background:#1c2530; border-radius:9px; }
   .badge.red{ background:var(--danger); width:64px; height:64px; font-size:20px; }
-
+ 
   .group-card{
     display:flex; flex-direction:column; gap:10px;
     background:var(--panel-2); border:1px solid var(--border); border-radius:14px;
@@ -310,7 +310,7 @@
   }
   .group-card .role-unit input{ background:var(--panel); }
   .area-head .group-card{ flex-direction:row; align-items:center; gap:26px; }
-
+ 
   .area-head{
     grid-area:head; display:flex; justify-content:center; align-items:flex-start;
     gap:34px;
@@ -333,13 +333,13 @@
     width:clamp(160px,16vw,240px); font-size:clamp(16px,1.6vw,22px); font-weight:700;
     padding:12px 16px;
   }
-
+ 
   .center-visual{
     grid-area:center; align-self:center; justify-self:center;
     width:min(150px,11vw); display:flex; align-items:center; justify-content:center;
   }
   .center-visual svg{ width:100%; height:auto; }
-
+ 
   /* LEYENDA */
   .legend-wrap{ position:relative; }
   .legend-popover{
@@ -351,9 +351,9 @@
   .legend-popover.show{ display:block; }
   .legend-popover div{ white-space:normal; }
   .legend-popover strong{ color:var(--teal); margin-right:4px; }
-
+ 
   footer{ display:flex; justify-content:center; gap:12px; }
-
+ 
   /* PANEL LATERAL DE PREBRIEFING */
   .sidebar{
     width:min(340px,26vw); flex-shrink:0; background:var(--panel);
@@ -393,7 +393,7 @@
     min-height:50px;
   }
   .events-textarea:focus{ outline:2px solid var(--teal); outline-offset:1px; }
-
+ 
   .events-quickbar{
     flex:0 0 auto; display:flex; flex-wrap:wrap; gap:6px;
   }
@@ -422,7 +422,7 @@
     flex-shrink:0; padding:0 2px; line-height:1;
   }
   .event-del:hover{ color:var(--danger); }
-
+ 
   #toast{
     position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
     background:var(--panel-2); border:1px solid var(--border); padding:8px 16px;
@@ -434,7 +434,7 @@
 </head>
 <body>
 <div id="app">
-
+ 
   <header>
     <div class="clock" id="clock">--:--:--<span class="date" id="dateStr"></span></div>
     <h1>TRAUMA TEAM</h1>
@@ -466,24 +466,24 @@
       <button class="icon-btn" id="fsBtn" title="Pantalla completa">⛶</button>
     </div>
   </header>
-
+ 
   <!-- Modal de sincronización de sesión -->
   <div id="syncModal" style="display:none;position:fixed;inset:0;background:rgba(21,34,48,.55);z-index:200;align-items:center;justify-content:center;">
     <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px 28px;max-width:360px;width:90%;text-align:center;font-family:var(--sans);">
       <h2 style="margin:0 0 4px;font-size:18px;">Sincronizar sesión</h2>
       <p id="syncSubtitle" style="margin:0 0 16px;color:var(--muted);font-size:13px;">Comparte esta sesión con hasta 2 dispositivos más</p>
-
+ 
       <div id="syncStart">
         <button class="btn primary" id="syncCreateBtn" style="width:100%;">Crear sesión compartida</button>
       </div>
-
+ 
       <div id="syncActive" style="display:none;">
         <div id="syncQR" style="margin:0 auto 12px;width:180px;height:180px;background:var(--panel-2);border-radius:10px;display:flex;align-items:center;justify-content:center;"></div>
         <div style="font-family:var(--mono);font-size:22px;letter-spacing:3px;font-weight:700;margin-bottom:6px;" id="syncCode">------</div>
         <div style="font-size:12px;color:var(--muted);margin-bottom:14px;" id="syncStatus">Conectando…</div>
         <button class="btn" id="syncCopyLink" style="width:100%;margin-bottom:8px;">Copiar enlace</button>
       </div>
-
+ 
       <div id="syncJoinRow" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
         <p style="margin:0 0 8px;color:var(--muted);font-size:12px;">¿Tienes un código de otra sesión?</p>
         <div style="display:flex;gap:6px;">
@@ -491,11 +491,11 @@
           <button class="btn" id="syncJoinBtn">Unirse</button>
         </div>
       </div>
-
+ 
       <button class="btn" id="syncCloseBtn" style="width:100%;margin-top:16px;">Cerrar</button>
     </div>
   </div>
-
+ 
   <div class="abcde-row">
     <button class="transfer-tile" id="transferTile">
       <div class="t-icon">🔄</div>
@@ -505,7 +505,7 @@
     </button>
     <div class="abcde" id="abcde"></div>
   </div>
-
+ 
   <div class="content-row">
   <main>
     <!-- Vía aèria, junto a la cabeza -->
@@ -521,7 +521,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Ventilació (B), a la izquierda -->
     <div class="area-left">
       <div class="role-unit">
@@ -533,7 +533,7 @@
         <input data-key="E" placeholder="Metge de suport">
       </div>
     </div>
-
+ 
     <div class="center-visual">
       <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
         <!-- Fondo azul (la "tarjeta" detrás de la figura) -->
@@ -561,8 +561,8 @@
         <rect x="52" y="118" width="13" height="70" rx="6" fill="#f0c29b"/>
       </svg>
     </div>
-
-
+ 
+ 
     <!-- Circulació (C, IC), a la derecha -->
     <div class="area-right">
       <div class="group-card">
@@ -576,7 +576,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Esquina inferior izquierda -->
     <div class="area-bl">
       <div class="role-unit">
@@ -584,7 +584,7 @@
         <input data-key="R" placeholder="Metge radiòleg">
       </div>
     </div>
-
+ 
     <!-- A los pies: líder, más visible -->
     <div class="area-bottom">
       <div class="role-unit leader">
@@ -592,7 +592,7 @@
         <input data-key="TL" placeholder="Trauma líder">
       </div>
     </div>
-
+ 
     <!-- Esquina inferior derecha -->
     <div class="area-br">
       <div class="group-card">
@@ -611,7 +611,7 @@
       </div>
     </div>
   </main>
-
+ 
   <aside class="sidebar">
     <div class="tabs">
       <button class="tab active" data-tab="prebriefing">Prebriefing</button>
@@ -646,22 +646,22 @@
     </div>
   </aside>
   </div>
-
+ 
   <footer>
     <button class="btn primary" id="downloadReport">📄 Descargar informe</button>
     <button class="btn danger" id="newCase">Nuevo caso (reset completo)</button>
   </footer>
 </div>
-
+ 
 <div id="toast"></div>
-
+ 
 <script>
 const STORAGE_KEY = "trauma-team-state-v1";
 const LETTERS = ["A","B","C","D","E"];
 const STATE_CYCLE = ["pending","inprogress","resolved"];
-
+ 
 const AMIST = ["A","M","I","S","T"];
-
+ 
 // Definición de los ítems del checklist clínico por letra (independiente del semáforo)
 const CHECKLIST_DEFS = {
   A: [
@@ -691,7 +691,7 @@ const CHECKLIST_DEFS = {
     { key:"logroll", label:"Log-roll realitzat", options:["Sí","No"], concern:["No"] }
   ]
 };
-
+ 
 // Botones rápidos de la pestaña Eventos (apuntan hora automática al pulsarlos)
 const EVENT_QUICK_BUTTONS = [
   "Arribada del pacient", "Trasllat/Transfer efectiu", "Via aèria assegurada / IOT",
@@ -699,7 +699,7 @@ const EVENT_QUICK_BUTTONS = [
   "Transfusió iniciada", "Sueroteràpia iniciada", "Fàrmac vasoactiu iniciat",
   "FAST/eco realitzat", "Sortida a TC", "Sortida a quiròfan", "Trasllat a UCI/planta"
 ];
-
+ 
 function defaultState(){
   return {
     roles: {},
@@ -712,9 +712,9 @@ function defaultState(){
     eventsLog: []
   };
 }
-
+ 
 let state = loadState();
-
+ 
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -734,7 +734,7 @@ function loadState(){
 function saveState(){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
-
+ 
 /* ---------- Reloj ---------- */
 function tickClock(){
   const now = new Date();
@@ -743,7 +743,7 @@ function tickClock(){
   document.getElementById("dateStr").textContent =
     now.toLocaleDateString('es-ES', {weekday:'long', day:'2-digit', month:'long'});
 }
-
+ 
 /* ---------- Formato tiempo ---------- */
 function fmt(ms){
   const totalSec = Math.floor(ms/1000);
@@ -756,13 +756,13 @@ function fmt(ms){
 function elapsedOf(t){
   return t.accumulated + (t.running ? (Date.now() - t.startedAt) : 0);
 }
-
+ 
 /* ---------- Cronómetro general ---------- */
 const genTimerEl = document.getElementById("genTimer");
 const genStartBtn = document.getElementById("genStart");
 const genPauseBtn = document.getElementById("genPause");
 const genResetBtn = document.getElementById("genReset");
-
+ 
 function renderGeneral(){
   genTimerEl.textContent = fmt(elapsedOf(state.general));
   genTimerEl.classList.toggle("running", state.general.running);
@@ -790,11 +790,11 @@ genResetBtn.onclick = () => {
   state.general = defaultState().general;
   saveState(); renderGeneral();
 };
-
+ 
 /* ---------- ABCDE ---------- */
 const abcdeEl = document.getElementById("abcde");
 const STATUS_LABEL = { pending:"Pendiente", inprogress:"En curso", resolved:"Resuelto" };
-
+ 
 function buildAbcde(){
   abcdeEl.innerHTML = "";
   LETTERS.forEach(letter => {
@@ -814,7 +814,7 @@ function buildAbcde(){
   });
   buildChecklistPanels();
 }
-
+ 
 function buildChecklistPanels(){
   LETTERS.forEach(letter => {
     const panel = abcdeEl.querySelector(`[data-panel="${letter}"]`);
@@ -844,10 +844,10 @@ function buildChecklistPanels(){
       panel.appendChild(row);
     });
   });
-
+ 
   panel_bindEvents();
 }
-
+ 
 function panel_bindEvents(){
   abcdeEl.querySelectorAll(".tile-expand").forEach(btn => {
     btn.onclick = (e) => {
@@ -888,7 +888,7 @@ document.addEventListener("click", (e) => {
     abcdeEl?.querySelectorAll(".tile-checklist").forEach(p => p.classList.remove("open"));
   }
 });
-
+ 
 function renderChecklistDots(){
   LETTERS.forEach(letter => {
     let hasValue = false, hasConcern = false;
@@ -909,12 +909,12 @@ function renderChecklistDots(){
     }
   });
 }
-
+ 
 function cycleLetter(letter){
   const t = state.abcde[letter];
   const idx = STATE_CYCLE.indexOf(t.state);
   const next = STATE_CYCLE[(idx+1) % STATE_CYCLE.length];
-
+ 
   if(next === "inprogress"){
     t.startedAt = Date.now();
   } else if(next === "resolved"){
@@ -928,7 +928,7 @@ function cycleLetter(letter){
   saveState();
   renderAbcde();
 }
-
+ 
 function renderAbcde(){
   LETTERS.forEach(letter => {
     const t = state.abcde[letter];
@@ -944,7 +944,7 @@ function renderAbcde(){
   });
   renderChecklistDots();
 }
-
+ 
 /* ---------- Transfer ---------- */
 const transferTile = document.getElementById("transferTile");
 const transferStatus = document.getElementById("transferStatus");
@@ -963,7 +963,7 @@ transferTile.onclick = () => {
   saveState();
   renderTransfer();
 };
-
+ 
 /* ---------- Roles (inputs) ---------- */
 document.querySelectorAll(".role-unit input").forEach(input => {
   const key = input.dataset.key;
@@ -973,7 +973,7 @@ document.querySelectorAll(".role-unit input").forEach(input => {
     saveState();
   });
 });
-
+ 
 /* ---------- Leyenda ---------- */
 const legendBtn = document.getElementById("legendBtn");
 const legendPopover = document.getElementById("legendPopover");
@@ -986,7 +986,7 @@ document.addEventListener("click", (e) => {
     legendPopover.classList.remove("show");
   }
 });
-
+ 
 /* ---------- Prebriefing (AMIST) ---------- */
 document.querySelectorAll("[data-amist]").forEach(ta => {
   const key = ta.dataset.amist;
@@ -996,7 +996,7 @@ document.querySelectorAll("[data-amist]").forEach(ta => {
     saveState();
   });
 });
-
+ 
 /* ---------- Eventos (botones rápidos + registro + texto libre) ---------- */
 const eventsText = document.getElementById("eventsText");
 eventsText.value = state.events || "";
@@ -1004,10 +1004,10 @@ eventsText.addEventListener("input", () => {
   state.events = eventsText.value;
   saveState();
 });
-
+ 
 const eventsQuickbar = document.getElementById("eventsQuickbar");
 const eventsLogList = document.getElementById("eventsLogList");
-
+ 
 EVENT_QUICK_BUTTONS.forEach(label => {
   const btn = document.createElement("button");
   btn.type = "button";
@@ -1016,17 +1016,17 @@ EVENT_QUICK_BUTTONS.forEach(label => {
   btn.onclick = () => addEventLog(label);
   eventsQuickbar.appendChild(btn);
 });
-
+ 
 function nowHHMM(){
   return new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
 }
-
+ 
 function addEventLog(label){
   state.eventsLog.push({ id: Date.now() + Math.random().toString(36).slice(2,6), time: nowHHMM(), label });
   saveState();
   renderEventsLog();
 }
-
+ 
 function renderEventsLog(){
   eventsLogList.innerHTML = "";
   state.eventsLog.forEach(entry => {
@@ -1060,7 +1060,7 @@ function renderEventsLog(){
   });
 }
 renderEventsLog();
-
+ 
 /* ---------- Pestañas del panel lateral ---------- */
 document.querySelectorAll(".tab").forEach(tab => {
   tab.onclick = () => {
@@ -1070,7 +1070,7 @@ document.querySelectorAll(".tab").forEach(tab => {
     document.getElementById(`tab-${tab.dataset.tab}`).hidden = false;
   };
 });
-
+ 
 /* ---------- Informe CSV ---------- */
 const ROLE_LABELS = [
   ["TL","Trauma líder"],
@@ -1092,7 +1092,7 @@ const AMIST_LABELS = {
   S: "Signes vitals (ROMEO, HOTEL i Glasgow)",
   T: "Tractament realitzat"
 };
-
+ 
 function csvEscape(value){
   const str = (value === null || value === undefined) ? "" : String(value);
   if(/[;"\n]/.test(str)){
@@ -1107,7 +1107,7 @@ function fmtClock(iso){
   if(!iso) return "";
   return new Date(iso).toLocaleString('es-ES');
 }
-
+ 
 function buildReportCSV(){
   let csv = "";
   csv += csvRow("Fecha del informe", new Date().toLocaleString('es-ES'));
@@ -1146,7 +1146,7 @@ function buildReportCSV(){
   csv += csvRow("Notes lliures", state.events || "");
   return csv;
 }
-
+ 
 function downloadCSV(){
   const csv = "\uFEFF" + buildReportCSV();
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -1160,12 +1160,12 @@ function downloadCSV(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-
+ 
 document.getElementById("downloadReport").onclick = () => {
   downloadCSV();
   showToast("Informe descargado");
 };
-
+ 
 /* ---------- Nuevo caso ---------- */
 document.getElementById("newCase").onclick = () => {
   if(confirm("¿Quieres descargar el informe de este caso antes de reiniciar?")){
@@ -1185,13 +1185,13 @@ document.getElementById("newCase").onclick = () => {
   renderAbcde();
   showToast("Pizarra reiniciada para nuevo caso");
 };
-
+ 
 /* ---------- Pantalla completa ---------- */
 document.getElementById("fsBtn").onclick = () => {
   if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
   else{ document.exitFullscreen(); }
 };
-
+ 
 /* ---------- Toast ---------- */
 let toastTimeout;
 function showToast(msg){
@@ -1201,7 +1201,7 @@ function showToast(msg){
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(()=> el.classList.remove("show"), 2200);
 }
-
+ 
 /* ---------- Init ---------- */
 buildAbcde();
 renderAbcde();
@@ -1209,16 +1209,16 @@ renderTransfer();
 renderGeneral();
 tickClock();
 setInterval(() => { tickClock(); renderGeneral(); renderAbcde(); }, 1000);
-
+ 
 /* ---------- Sincronización multi-dispositivo (WebSocket) ---------- */
 const SYNC_SERVER_URL = "wss://dashboard-ppt-trueta.onrender.com";
 const SYNC_HTTP_URL = SYNC_SERVER_URL.replace(/^wss:/, "https:").replace(/^ws:/, "http:");
-
+ 
 let syncWs = null;
 let syncRoomCode = null;
 let syncApplyingRemote = false; // evita bucles: al aplicar un state remoto no lo reenviamos
 let syncManualClose = false;    // true cuando el cierre del WS lo pedimos nosotros (salir/nueva sesión)
-
+ 
 const syncBtn = document.getElementById("syncBtn");
 const syncDot = document.getElementById("syncDot");
 const syncModal = document.getElementById("syncModal");
@@ -1228,44 +1228,44 @@ const syncCode = document.getElementById("syncCode");
 const syncStatus = document.getElementById("syncStatus");
 const syncQR = document.getElementById("syncQR");
 const syncSubtitle = document.getElementById("syncSubtitle");
-
+ 
 // Elementos de la vista móvil relacionados con sincronización
 const mvLinkBanner = document.getElementById("mvLinkBanner");
 const mvSyncCode = document.getElementById("mvSyncCode");
 const mvSyncIdle = document.getElementById("mvSyncIdle");
 const mvSyncConnected = document.getElementById("mvSyncConnected");
 const mvSyncStatus = document.getElementById("mvSyncStatus");
-
+ 
 function openSyncModal(){ syncModal.style.display = "flex"; }
 function closeSyncModal(){ syncModal.style.display = "none"; }
 syncBtn.onclick = openSyncModal;
 document.getElementById("syncCloseBtn").onclick = closeSyncModal;
-
+ 
 function syncUrlForRoom(code){
   const url = new URL(location.href);
   url.searchParams.set("room", code);
   return url.toString();
 }
-
+ 
 function renderQR(text){
   syncQR.innerHTML = "";
   new QRCode(syncQR, { text, width: 176, height: 176, correctLevel: QRCode.CorrectLevel.M });
 }
-
+ 
 function updateSyncUIConnected(){
   // Modal de escritorio
   syncStart.style.display = "none";
   syncActive.style.display = "block";
   syncCode.textContent = syncRoomCode;
   renderQR(syncUrlForRoom(syncRoomCode));
-
+ 
   // Banner persistente (visible siempre, sin depender del modal)
   mvLinkBanner.style.display = "flex";
   mvSyncCode.textContent = syncRoomCode;
   mvSyncIdle.style.display = "none";
   mvSyncConnected.style.display = "block";
 }
-
+ 
 function updateSyncUIDisconnected(){
   syncStart.style.display = "block";
   syncActive.style.display = "none";
@@ -1273,22 +1273,22 @@ function updateSyncUIDisconnected(){
   mvSyncIdle.style.display = "block";
   mvSyncConnected.style.display = "none";
 }
-
+ 
 function connectToRoom(code){
   syncManualClose = false;
   syncRoomCode = code.toUpperCase();
   syncStatus.textContent = "Conectando…";
   mvSyncStatus.textContent = "Conectando…";
   updateSyncUIConnected();
-
+ 
   // Reflejar el código en la URL sin recargar, para que compartir el enlace directo también funcione
   const url = new URL(location.href);
   url.searchParams.set("room", syncRoomCode);
   history.replaceState(null, "", url.toString());
-
+ 
   if(syncWs){ syncManualClose = true; try{ syncWs.close(); }catch(e){} syncManualClose = false; }
   syncWs = new WebSocket(`${SYNC_SERVER_URL}?room=${syncRoomCode}`);
-
+ 
   syncWs.onopen = () => {
     syncStatus.textContent = "Conectado — enviando estado actual";
     mvSyncStatus.textContent = "Conectado";
@@ -1346,7 +1346,7 @@ function connectToRoom(code){
     mvSyncStatus.textContent = "⚠ Error de conexión";
   };
 }
-
+ 
 function leaveRoom(){
   syncManualClose = true;
   if(syncWs){ try{ syncWs.close(); }catch(e){} }
@@ -1358,7 +1358,7 @@ function leaveRoom(){
   updateSyncUIDisconnected();
   showToast("Has salido de la sesión compartida");
 }
-
+ 
 async function startNewSession(){
   // Para un nuevo politrauma: reinicia el tablero local y crea una sala nueva (deja la anterior)
   if(syncWs){ syncManualClose = true; try{ syncWs.close(); }catch(e){} syncWs = null; }
@@ -1385,7 +1385,7 @@ async function startNewSession(){
     alert("No se pudo crear la nueva sesión compartida. Revisa la conexión.");
   }
 }
-
+ 
 document.getElementById("syncCreateBtn").onclick = async () => {
   syncStatus.textContent = "Creando sesión…";
   try{
@@ -1404,7 +1404,7 @@ document.getElementById("syncJoinBtn").onclick = () => {
 document.getElementById("syncCopyLink").onclick = () => {
   navigator.clipboard.writeText(syncUrlForRoom(syncRoomCode)).then(() => showToast("Enlace copiado")).catch(()=>{});
 };
-
+ 
 // Botones equivalentes en la vista móvil
 document.getElementById("mvCreateBtn").onclick = () => document.getElementById("syncCreateBtn").onclick();
 document.getElementById("mvJoinBtn").onclick = () => {
@@ -1421,7 +1421,7 @@ document.getElementById("mvLeaveBtn").onclick = () => {
 document.getElementById("mvNewSessionBtn").onclick = () => {
   if(confirm("Esto reinicia el tablero (nuevo caso) y crea una sesión nueva, dejando la actual. ¿Continuar?")) startNewSession();
 };
-
+ 
 // Envolvemos saveState para retransmitir el estado a la sala cada vez que cambia localmente
 const _originalSaveState = saveState;
 saveState = function(){
@@ -1430,7 +1430,7 @@ saveState = function(){
     syncWs.send(JSON.stringify({ type:"state", state }));
   }
 };
-
+ 
 // Si la URL ya trae ?room=CODIGO (por ejemplo, al escanear el QR), nos unimos automáticamente
 (function autoJoinFromURL(){
   const params = new URLSearchParams(location.search);
@@ -1441,13 +1441,13 @@ saveState = function(){
     if(window.innerWidth > 820) openSyncModal();
   }
 })();
-
+ 
 /* ---------- Vista móvil: toggle y render ---------- */
 const mobileToggleBtn = document.getElementById("mobileToggleBtn");
 const mvDesktopBtn = document.getElementById("mvDesktopBtn");
-
+ 
 function isMobileWidth(){ return window.innerWidth <= 820; }
-
+ 
 function setMobileMode(on){
   document.body.classList.toggle("force-mobile", on);
   document.body.classList.toggle("force-desktop", !on);
@@ -1455,10 +1455,10 @@ function setMobileMode(on){
 }
 mobileToggleBtn.onclick = () => setMobileMode(true);
 mvDesktopBtn.onclick = () => setMobileMode(false);
-
+ 
 // Al cargar: si la pantalla es estrecha, arrancamos directamente en modo móvil
 if(isMobileWidth()) document.body.classList.add("force-mobile");
-
+ 
 const mvTimer = document.getElementById("mvTimer");
 const mvAbcdeGrid = document.getElementById("mvAbcdeGrid");
 const mvChecklistPanel = document.getElementById("mvChecklistPanel");
@@ -1466,9 +1466,9 @@ const mvTransferBtn = document.getElementById("mvTransferBtn");
 const mvRolesGrid = document.getElementById("mvRolesGrid");
 const mvEventButtons = document.getElementById("mvEventButtons");
 const mvEventLog = document.getElementById("mvEventLog");
-
+ 
 let mvOpenLetter = null;
-
+ 
 function buildMobileStatic(){
   // ABCDE grid (se reconstruye cada render porque el estado cambia poco de tamaño)
   mvAbcdeGrid.innerHTML = LETTERS.map(letter => `
@@ -1484,7 +1484,7 @@ function buildMobileStatic(){
       renderMobileChecklist();
     };
   });
-
+ 
   // Roles (reutiliza ROLE_LABELS ya definido para el CSV)
   mvRolesGrid.innerHTML = ROLE_LABELS.map(([code, label]) => `
     <div class="mv-role">
@@ -1499,7 +1499,7 @@ function buildMobileStatic(){
       saveState();
     });
   });
-
+ 
   // Botones rápidos de eventos
   mvEventButtons.innerHTML = "";
   EVENT_QUICK_BUTTONS.forEach(label => {
@@ -1511,7 +1511,7 @@ function buildMobileStatic(){
     mvEventButtons.appendChild(btn);
   });
 }
-
+ 
 function renderMobileChecklist(){
   if(!mvOpenLetter){ mvChecklistPanel.classList.remove("open"); mvChecklistPanel.innerHTML = ""; return; }
   const letter = mvOpenLetter;
@@ -1538,7 +1538,7 @@ function renderMobileChecklist(){
     `<div class="mv-pill-row" style="margin-top:6px;">
        <button type="button" class="btn" data-mv-cycle="${letter}" style="width:100%;">Cambiar estado (pendiente → en curso → resuelto)</button>
      </div>`;
-
+ 
   mvChecklistPanel.querySelectorAll(".mv-pill").forEach(pill => {
     pill.onclick = () => {
       const { mvLetter, mvKey, mvValue } = pill.dataset;
@@ -1560,7 +1560,7 @@ function renderMobileChecklist(){
     cycleBtn.onclick = () => { cycleLetter(cycleBtn.dataset.mvCycle); renderMobileView(); };
   }
 }
-
+ 
 function renderMobileAbcdeGrid(){
   LETTERS.forEach(letter => {
     const t = state.abcde[letter];
@@ -1570,32 +1570,32 @@ function renderMobileAbcdeGrid(){
     el.querySelector(".mv-l-status").textContent = STATUS_LABEL[t.state];
   });
 }
-
+ 
 function renderMobileView(){
   if(!mvAbcdeGrid.children.length) buildMobileStatic();
-
+ 
   mvTimer.textContent = fmt(elapsedOf(state.general));
   renderMobileAbcdeGrid();
   renderMobileChecklist();
-
+ 
   mvTransferBtn.textContent = state.transfer.done ? "Hecho ✓ — tocar para deshacer" : "Pendiente — tocar cuando esté hecho";
   mvTransferBtn.classList.toggle("done", state.transfer.done);
-
+ 
   document.querySelectorAll("[data-mv-role]").forEach(input => {
     input.value = state.roles[input.dataset.mvRole] || "";
   });
-
+ 
   mvEventLog.innerHTML = state.eventsLog.slice().reverse().map(entry => `
     <div class="mv-event-log-row"><span class="mv-time">${entry.time}</span><span>${entry.label.replace(/</g,"&lt;")}</span></div>
   `).join("");
 }
-
+ 
 mvTransferBtn.onclick = () => { transferTile.click(); renderMobileView(); };
-
+ 
 // Refrescar el reloj móvil junto con el resto (ya hay un setInterval de 1s para desktop)
 setInterval(() => { if(document.body.classList.contains("force-mobile")) renderMobileView(); }, 1000);
 renderMobileView();
-
+ 
 /* ---------- Service worker (PWA) ---------- */
 if("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")){
   window.addEventListener("load", () => {
@@ -1609,12 +1609,12 @@ if("serviceWorker" in navigator && (location.protocol === "https:" || location.h
     <div class="mv-timer" id="mvTimer">00:00</div>
     <button class="icon-btn" id="mvDesktopBtn" title="Ver como pizarra completa">🖥️</button>
   </div>
-
+ 
   <div class="mv-link-banner" id="mvLinkBanner" style="display:none;">
     <span>Sesión: <code id="mvSyncCode">------</code></span>
     <button class="btn" id="mvCopyLinkBtn" style="padding:5px 9px;font-size:11px;">Copiar enlace</button>
   </div>
-
+ 
   <div class="mv-section" id="mvSyncSection">
     <h2>Sesión compartida</h2>
     <div id="mvSyncIdle">
@@ -1632,29 +1632,29 @@ if("serviceWorker" in navigator && (location.protocol === "https:" || location.h
       </div>
     </div>
   </div>
-
+ 
   <div class="mv-section">
     <h2>ABCDE — toca una letra para ver/rellenar</h2>
     <div class="mv-abcde-grid" id="mvAbcdeGrid"></div>
     <div class="mv-checklist-panel" id="mvChecklistPanel"></div>
   </div>
-
+ 
   <div class="mv-section">
     <h2>Transfer</h2>
     <button class="mv-transfer-btn" id="mvTransferBtn">Pendiente — tocar cuando esté hecho</button>
   </div>
-
+ 
   <div class="mv-section">
     <h2>Equipo (roles)</h2>
     <div class="mv-roles-grid" id="mvRolesGrid"></div>
   </div>
-
+ 
   <div class="mv-section">
     <h2>Registrar evento</h2>
     <div id="mvEventButtons"></div>
     <div class="mv-event-log" id="mvEventLog"></div>
   </div>
 </div>
-
+ 
 </body>
 </html>
