@@ -1,4 +1,4 @@
-const CACHE = "trauma-team-v2";
+const CACHE = "trauma-team-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,7 +7,6 @@ const ASSETS = [
   "./icons/icon-512.png",
   "./icons/icon-512-maskable.png"
 ];
-
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE)
@@ -17,7 +16,6 @@ self.addEventListener("install", (e) => {
       .then(() => self.skipWaiting())
   );
 });
-
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
@@ -25,14 +23,21 @@ self.addEventListener("activate", (e) => {
     ).then(() => self.clients.claim())
   );
 });
-
 // El HTML (la app en sí) se pide siempre a la red primero, para que un
 // deployment nuevo se vea al instante. Si no hay conexión, usa la copia
 // guardada como respaldo. El resto (iconos, manifest) sí usa la copia
 // guardada primero, para poder abrir la app offline sin esperas.
 self.addEventListener("fetch", (e) => {
+  const url = new URL(e.request.url);
+ 
+  // IMPORTANTE: nunca interceptar peticiones a otros dominios
+  // (servidor de sincronización en Render, WebSocket, CDN del QR, etc.).
+  // Dejarlas pasar directas a la red sin pasar por caché.
+  if (url.origin !== self.location.origin) {
+    return; // no llamar a respondWith = comportamiento normal del navegador
+  }
+ 
   const isHTML = e.request.mode === "navigate" || e.request.destination === "document";
-
   if (isHTML) {
     e.respondWith(
       fetch(e.request)
