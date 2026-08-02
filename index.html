@@ -1406,7 +1406,7 @@ document.getElementById("syncCopyLink").onclick = () => {
 };
  
 // Botones equivalentes en la vista móvil
-document.getElementById("mvCreateBtn").onclick = () => document.getElementById("syncCreateBtn").onclick();
+document.getElementById("mvCreateBtn").onclick = () => document.getElementById("syncCreateBtn").click();
 document.getElementById("mvJoinBtn").onclick = () => {
   const code = document.getElementById("mvJoinCode").value.trim();
   if(code.length < 4){ alert("Introduce un código válido"); return; }
